@@ -4,7 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 public class UI extends Application 
 {
@@ -18,16 +18,16 @@ public class UI extends Application
 	    private void initUI(Stage stage) 
 	    {
 
-	        HBox root = new HBox(5);
+	        VBox root = new VBox(5);
 	        root.setPadding(new Insets(10));
-	        root.setAlignment(Pos.BASELINE_RIGHT);
+	        //root.setAlignment(Pos.BASELINE_RIGHT);
 	        
-	        Button prevBtn = new Button("Previous");
-	        Button nextBtn = new Button("Next");
-	        Button cancBtn = new Button("Cancel");
+	        Button newBtn = new Button("New Solution");
+	        Button searchBtn = new Button("Search Solutions");
 	        Button helpBtn = new Button("Help");
+	        Button quitBtn = new Button("Quit");
 	        
-	        root.getChildren().addAll(prevBtn, nextBtn, cancBtn, helpBtn);
+	        root.getChildren().addAll(newBtn, searchBtn, helpBtn, quitBtn);
 
 	        Scene scene = new Scene(root);
 	        stage.setTitle("Row of buttons");
