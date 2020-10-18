@@ -65,6 +65,10 @@ public class UI extends Application
 	    {
 	    	Stage newSol = new Stage();
 	    	GridPane grid = new GridPane();
+	        grid.setHgap(8);
+	        grid.setVgap(8);
+	        grid.setPadding(new Insets(5));
+	        
 	        
 	    	ColumnConstraints cons1 = new ColumnConstraints();
 	        cons1.setHgrow(Priority.NEVER);
@@ -72,23 +76,38 @@ public class UI extends Application
 	        ColumnConstraints cons2 = new ColumnConstraints();
 	        cons2.setHgrow(Priority.ALWAYS);
 	        
-	        RowConstraints rcons1 = new RowConstraints();
+	        RowConstraints rcons1 = new RowConstraints(50);
 	        rcons1.setVgrow(Priority.ALWAYS);
 	        
-	        RowConstraints rcons2 = new RowConstraints();
+	        RowConstraints rcons2 = new RowConstraints(50);
 	        rcons2.setVgrow(Priority.ALWAYS); 
+	        
+	        RowConstraints rcons3 = new RowConstraints(50);
+	        rcons2.setVgrow(Priority.ALWAYS);
+	        
+	        RowConstraints rcons4 = new RowConstraints(50);
+	        rcons2.setVgrow(Priority.ALWAYS);
 	        
 	        Label nameLbl = new Label("Name:");
 	        TextField nameField = new TextField();
-	        Label desLbl = new Label("Descrition:");
+	        Label desLbl = new Label("Description:");
 	        TextField desField = new TextField();
+	        Label solLbl = new Label("Solution:");
+	        TextField solField = new TextField();
 	        
 	        grid.add(nameLbl, 0, 0);
 	        grid.add(nameField, 1, 0, 2, 1);
-	        grid.add(desLbl, 0, 2);
-	        grid.add(desField, 1, 2, 2, 1);
-	        grid.getRowConstraints().addAll(rcons1, rcons2);
-	        grid.getColumnConstraints().addAll(cons1);
+	        grid.add(desLbl, 0, 1);
+	        grid.add(desField, 1, 1, 4, 2);
+	        grid.add(solLbl, 0, 2);
+	        grid.add(solField, 1, 2 );
+	        grid.getRowConstraints().addAll(rcons1, rcons2, rcons3, rcons4);
+	        grid.getColumnConstraints().addAll(cons1, cons2);
+	        
+	        //GridPane.setMargin(nameLbl, new Insets(-1, -1, -1, -1));
+	        //GridPane.setMargin(nameField, new Insets(-1, -1, -1, -1));
+	       // GridPane.setMargin(desLbl, new Insets(-1, -1, -1, -1));
+	       // GridPane.setMargin(desField, new Insets(-1, -1, -1, -1));
 	        
 	        Scene scene = new Scene(grid, 280, 300);
 	        
