@@ -92,6 +92,7 @@ public class UI extends Application
 	        TextField nameField = new TextField();
 	        Label desLbl = new Label("Description:");
 	        TextField desField = new TextField();
+	        
 	        Label solLbl = new Label("Solution:");
 	        TextField solField = new TextField();
 	        
