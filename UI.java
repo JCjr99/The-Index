@@ -1,10 +1,13 @@
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -12,6 +15,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.TilePane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 public class UI extends Application 
 {
@@ -63,12 +67,13 @@ public class UI extends Application
 	    
 	    public static void NewSolutionUI() 
 	    {
+	    	
 	    	Stage newSol = new Stage();
 	    	GridPane grid = new GridPane();
 	        grid.setHgap(8);
 	        grid.setVgap(8);
 	        grid.setPadding(new Insets(5));
-	        
+	       
 	        
 	    	ColumnConstraints cons1 = new ColumnConstraints();
 	        cons1.setHgrow(Priority.NEVER);
@@ -89,19 +94,31 @@ public class UI extends Application
 	        rcons2.setVgrow(Priority.ALWAYS);
 	        
 	        Label nameLbl = new Label("Name:");
+	        
 	        TextField nameField = new TextField();
+	        
 	        Label desLbl = new Label("Description:");
 	        TextField desField = new TextField();
+	        desField.setPrefHeight(800);
 	        
 	        Label solLbl = new Label("Solution:");
-	        TextField solField = new TextField();
+	        TextArea solField = new TextArea();
+	        solField.setPrefHeight(400);
+	        //solField.setAlignment(Pos.TOP_LEFT);
+	       // solField.setPrefColumnCount();
+	        
+	        Button okBtn = new Button("OK");
+	        
+	        Button cnclBtn = new Button("Cancel");
 	        
 	        grid.add(nameLbl, 0, 0);
 	        grid.add(nameField, 1, 0, 2, 1);
 	        grid.add(desLbl, 0, 1);
 	        grid.add(desField, 1, 1, 4, 2);
-	        grid.add(solLbl, 0, 2);
-	        grid.add(solField, 1, 2 );
+	        grid.add(solLbl, 0, 3);
+	        grid.add(solField, 1, 3, 4, 2);
+	        grid.add(okBtn,3 , 5);
+	        grid.add(cnclBtn, 4, 5);
 	        grid.getRowConstraints().addAll(rcons1, rcons2, rcons3, rcons4);
 	        grid.getColumnConstraints().addAll(cons1, cons2);
 	        
@@ -110,8 +127,8 @@ public class UI extends Application
 	       // GridPane.setMargin(desLbl, new Insets(-1, -1, -1, -1));
 	       // GridPane.setMargin(desField, new Insets(-1, -1, -1, -1));
 	        
-	        Scene scene = new Scene(grid, 280, 300);
-	        
+	        Scene scene = new Scene(grid);
+	        newSol.setMaximized(true);
 	        newSol.setScene(scene);
 	    	newSol.show();
 	    	
