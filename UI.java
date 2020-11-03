@@ -60,7 +60,8 @@ public class UI extends Application
 	        root.getChildren().addAll(newBtn, searchBtn, helpBtn, quitBtn);
 	        root.setFillWidth(true);
 	        Scene scene = new Scene(root);
-	        stage.setTitle("Row of buttons");
+	        stage.setTitle("Main Menu");
+	        stage.setMaximized(true);
 	        stage.setScene(scene);
 	        stage.show();
 	    }
@@ -98,7 +99,7 @@ public class UI extends Application
 	        TextField nameField = new TextField();
 	        
 	        Label desLbl = new Label("Description:");
-	        TextField desField = new TextField();
+	        TextArea desField = new TextArea();
 	        desField.setPrefHeight(800);
 	        
 	        Label solLbl = new Label("Solution:");
