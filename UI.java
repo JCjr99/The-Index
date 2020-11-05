@@ -39,7 +39,7 @@ public class UI extends Application
 	        VBox.setVgrow(newBtn, Priority.ALWAYS);
 	        newBtn.setOnMouseClicked(e -> 
 	        {
-	        	NewSolutionUI();
+	        	newSolutionUI();
 	        });
 	        
 	        Button searchBtn = new Button("Search Solutions");
@@ -66,7 +66,7 @@ public class UI extends Application
 	        stage.show();
 	    }
 	    
-	    public static void NewSolutionUI() 
+	    public static void newSolutionUI() 
 	    {
 	    	
 	    	Stage newSol = new Stage();
@@ -132,6 +132,11 @@ public class UI extends Application
 	        newSol.setMaximized(true);
 	        newSol.setScene(scene);
 	    	newSol.show();
+	    	
+	    }
+	    
+	    public static void findSolution()
+	    {
 	    	
 	    }
 
