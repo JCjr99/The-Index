@@ -55,7 +55,8 @@ public class Database
 		try 
 		{
 			
-			String sql = "SELECT name, filepath FROM filesystem";
+			String sql = "SELECT * FROM solutionstable WHERE REGEXP " + search ;
+			
 			
 		}
 		catch(Exception e)
