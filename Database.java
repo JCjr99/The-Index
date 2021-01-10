@@ -1,15 +1,14 @@
 import java.sql.*;
 public class Database 
 {
-	public Connection con;
-	public Connection connect() 
+	public Database() 
 	{
 		
-		Connection con = null;
+		
 		try 
 		{
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
 			if(!con.isClosed())
 				System.out.println("Succesfully connected to MySQL server...");
 			Statement stmt = con.createStatement();
@@ -26,7 +25,16 @@ public class Database
 					+ "description VARCHAR(1000),"
 					+ "solution VARCHAR(1000) NOT NULL)";
 			stmt.executeUpdate(sql);
-				
+			//close connection
+			try 
+			{
+				if (con != null )
+					con.close();
+			}
+			catch(SQLException e) 
+			{
+				System.err.println("Exception: " + e.getMessage());
+			}		
 		}
 		catch(Exception e)
 		{
@@ -34,41 +42,59 @@ public class Database
 		}
 		
 		
-		return con;
 	}
 
-	public void close(Connection con)
+	
+	public void searchDatabase( String search)
 	{
+		
+		String sql = "SELECT * FROM solutionstable WHERE name like ? "  ;
+		
 		try 
 		{
-			if (con != null )
-				con.close();
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Solutions", "root", "");
+			
+			PreparedStatement preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, search+"%");
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			System.out.println(rs.getFetchSize());
+			while(rs.next())
+			{
+				System.out.println(rs);
+				String name = rs.getString("name");
+				String description = rs.getString("description");
+				String solution = rs.getString("solution");
+				System.out.println("name : " + name);
+				System.out.println("description:" + description);
+				System.out.println("solution:" + solution);
+			}
+			//close connection
+			try 
+			{
+				preparedStatement.close();
+				if (con != null )
+					con.close();
+			}
+			catch(SQLException e) 
+			{
+				System.err.println("Exception: " + e.getMessage());
+			}	
+			
 		}
-		catch(SQLException e) 
+		catch(SQLException e)
 		{
-			System.err.println("Exception: " + e.getMessage());
-		}	
+			e.printStackTrace();
+		}
 		
 	}
-	public void searchDatabase(Connection con, String search)
-	{
-		try 
-		{
-			
-			String sql = "SELECT * FROM solutionstable WHERE REGEXP " + search ;
-			
-			
-		}
-		catch(Exception e)
-		{
-			System.err.println("Exception: " + e.getMessage());
-		}
-	}
 	
-	public void addData(Connection con, String name, String description, String solution)
+	public void addData( String name, String description, String solution)
 	{
 		try 
 		{
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Solutions", "root", "");
 			
 			String sql = "INSERT INTO SolutionsTable(name,description,solution) "
 					+ "VALUES (?,?,?)" ;
@@ -78,19 +104,37 @@ public class Database
 			preparedStmt.setString(3, solution);
 			preparedStmt.execute();
 			
+			//close connection
+			try 
+			{
+				if (con != null )
+					con.close();
+			}
+			catch(SQLException e) 
+			{
+				System.err.println("Exception: " + e.getMessage());
+			}	
+			
 		}
+		
 		catch(Exception e)
 		{
 			System.err.println("Exception: " + e.getMessage());
 		}
+		
 		
 	}
 	
 	public static void main(String args[])
 	{
 		Database d = new Database();
-		d.con= d.connect();
-		d.close(d.con);
+		
+		////d.addData( "error1", "program crashes when yeet", "dont yeet");
+		//d.addData( "bug1", "program crashes when goop", "dont goop");
+		
+		d.searchDatabase("error");
+		
+	
 	}
 
 }
