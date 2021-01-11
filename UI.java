@@ -1,5 +1,7 @@
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -26,7 +28,9 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
 public class UI extends Application 
+
 {
 	 @Override
 	 public void start(Stage stage) 
@@ -153,9 +157,11 @@ public class UI extends Application
 	    
 	    public static void findSolutionUI()
 	    {
+	    	Database database = new Database();
+	    	List<String[]> dbResults = new ArrayList<String[]>();
 	    	Stage findStage = new Stage();
 	        findStage.setTitle("Find Solution");
-
+	        
 	    	GridPane grid = new GridPane();
 	        grid.setHgap(8);
 	        grid.setVgap(8);
@@ -178,9 +184,23 @@ public class UI extends Application
 	        rcons2.setVgrow(Priority.ALWAYS); 
 
 	        Button searchButton = new Button("Search");
-	        TextField searchField = new TextField();
 
+	        TextField searchField = new TextField();
+	        
 	        ListView<String> listView = new ListView<String>();
+	        searchButton.setOnMouseClicked(e ->
+	        {
+	        	dbResults.addAll(database.searchDatabase(searchField.getText()));
+	        	for(int i = 0; i<dbResults.size(); i++)
+	        	{
+	        		listView.getItems().add(dbResults.get(i)[0]);
+	        	}
+		       // listView.getItems().add(dbResults.get(0)[0]);
+		      //  listView.getItems().add("Item 2");
+		       // listView.getItems().add("Item 3");
+	        });
+	        
+
 	        listView.setCellFactory(lv -> 
 	        {
 	            ListCell<String> cell = new ListCell<String>() 
@@ -210,9 +230,7 @@ public class UI extends Application
 		        });
 		        return cell ;
 		    });
-	        listView.getItems().add("Item 1");
-	        listView.getItems().add("Item 2");
-	        listView.getItems().add("Item 3");
+
 
 	        //HBox hbox = new HBox(listView);
 	        
@@ -226,6 +244,8 @@ public class UI extends Application
 	        findStage.setScene(scene);
 	        findStage.show();
 	    }
+	    
+	    
 
 	    public static void main(String[] args) 
 	    {

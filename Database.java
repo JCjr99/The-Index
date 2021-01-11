@@ -1,4 +1,7 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 public class Database 
 {
 	public Database() 
@@ -45,11 +48,11 @@ public class Database
 	}
 
 	
-	public void searchDatabase( String search)
+	public List<String[]> searchDatabase( String search)
 	{
 		
 		String sql = "SELECT * FROM solutionstable WHERE name like ? "  ;
-		
+		List<String[]> results = new ArrayList<String[]>();
 		try 
 		{
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Solutions", "root", "");
@@ -59,17 +62,20 @@ public class Database
 			
 			ResultSet rs = preparedStatement.executeQuery();
 			
-			System.out.println(rs.getFetchSize());
+			//String[] tempResult = new String[3];
 			while(rs.next())
 			{
-				System.out.println(rs);
-				String name = rs.getString("name");
-				String description = rs.getString("description");
-				String solution = rs.getString("solution");
-				System.out.println("name : " + name);
-				System.out.println("description:" + description);
-				System.out.println("solution:" + solution);
+				String[] tempResult = new String[3];
+				tempResult[0] = rs.getString("name");
+				tempResult[1] = rs.getString("description");
+				tempResult[2] = rs.getString("solution");
+			
+				results.add(tempResult);
+				
+				
+				
 			}
+			
 			//close connection
 			try 
 			{
@@ -87,6 +93,8 @@ public class Database
 		{
 			e.printStackTrace();
 		}
+		
+		return results;
 		
 	}
 	
@@ -107,6 +115,7 @@ public class Database
 			//close connection
 			try 
 			{
+				preparedStmt.close();
 				if (con != null )
 					con.close();
 			}
@@ -132,7 +141,7 @@ public class Database
 		////d.addData( "error1", "program crashes when yeet", "dont yeet");
 		//d.addData( "bug1", "program crashes when goop", "dont goop");
 		
-		d.searchDatabase("error");
+		System.out.println(d.searchDatabase("error").get(0)[1]);
 		
 	
 	}
