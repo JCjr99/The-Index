@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -24,6 +25,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.layout.TilePane;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
@@ -114,9 +117,8 @@ public class UI extends Application
 	        RowConstraints rcons4 = new RowConstraints(50);
 	        rcons4.setVgrow(Priority.ALWAYS);
 	        
-	        Label nameLbl = new Label("Name:");
-	        
-	        TextField nameField = new TextField();
+	        Label titleLbl = new Label("Title:");
+	        TextField titleField = new TextField();
 	        
 	        Label desLbl = new Label("Description:");
 	        TextArea desField = new TextArea();
@@ -129,11 +131,15 @@ public class UI extends Application
 	       // solField.setPrefColumnCount();
 	        
 	        Button okBtn = new Button("OK");
-	        
+	        okBtn.setOnMouseClicked(e ->
+	        {
+	        	Database database = new Database();
+	        	database.addData(titleField.getText(),desField.getText(), solField.getText());
+	        });
 	        Button cnclBtn = new Button("Cancel");
 	        
-	        grid.add(nameLbl, 0, 0);
-	        grid.add(nameField, 1, 0, 2, 1);
+	        grid.add(titleLbl, 0, 0);
+	        grid.add(titleField, 1, 0, 2, 1);
 	        grid.add(desLbl, 0, 1);
 	        grid.add(desField, 1, 1, 4, 2);
 	        grid.add(solLbl, 0, 3);
@@ -154,6 +160,7 @@ public class UI extends Application
 	    	newSol.show();
 	    	
 	    }
+	    
 	    
 	    public static void findSolutionUI()
 	    {
@@ -191,6 +198,7 @@ public class UI extends Application
 	        searchButton.setOnMouseClicked(e ->
 	        {
 	        	dbResults.addAll(database.searchDatabase(searchField.getText()));
+	        	
 	        	for(int i = 0; i<dbResults.size(); i++)
 	        	{
 	        		listView.getItems().add(dbResults.get(i)[0]);
@@ -199,8 +207,6 @@ public class UI extends Application
 		      //  listView.getItems().add("Item 2");
 		       // listView.getItems().add("Item 3");
 	        });
-	        
-
 	        listView.setCellFactory(lv -> 
 	        {
 	            ListCell<String> cell = new ListCell<String>() 
@@ -214,6 +220,7 @@ public class UI extends Application
 	                        setText(null);
 	                    } else 
 	                    {
+	                    	
 	                        setText(item.toString());
 	                    }
 	                }
@@ -226,14 +233,13 @@ public class UI extends Application
 		                String item = cell.getItem();
 		                //code here to fetch data about selected item
 		                System.out.println("Clicked "+item);
+		                //System.out.print(listView.getItems().indexOf(item));
+		                problemDetailsUI(dbResults.get(listView.getItems().indexOf(item)));
 		            }
 		        });
 		        return cell ;
 		    });
 
-
-	        //HBox hbox = new HBox(listView);
-	        
 	        grid.add(searchField, 0, 0, 2, 1);
 	        grid.add(searchButton, 2, 0);
 	        grid.add(listView, 0, 1, 3, 3);
@@ -245,6 +251,77 @@ public class UI extends Application
 	        findStage.show();
 	    }
 	    
+	    
+	    public static void problemDetailsUI(String[] details) 
+	    {
+	      	Stage probDet = new Stage();
+	    	GridPane grid = new GridPane();
+	        grid.setHgap(8);
+	        grid.setVgap(8);
+	        grid.setPadding(new Insets(5));
+	       
+	        
+	    	ColumnConstraints cons1 = new ColumnConstraints();
+	        cons1.setHgrow(Priority.NEVER);
+	        
+	        ColumnConstraints cons2 = new ColumnConstraints();
+	        cons2.setHgrow(Priority.ALWAYS);
+	        
+	        RowConstraints rcons1 = new RowConstraints(50);
+	        rcons1.setVgrow(Priority.ALWAYS);
+	        
+	        RowConstraints rcons2 = new RowConstraints(50);
+	        rcons2.setVgrow(Priority.ALWAYS); 
+	        
+	        RowConstraints rcons3 = new RowConstraints(50);
+	        rcons3.setVgrow(Priority.ALWAYS);
+	        
+	        RowConstraints rcons4 = new RowConstraints(50);
+	        rcons4.setVgrow(Priority.ALWAYS);
+	        
+	        Label titleNameLbl = new Label("Title:");
+	        Label titleLbl = new Label(details[0]);
+	        titleLbl.setTextAlignment(TextAlignment.LEFT);
+	        
+	        Label desNameLbl = new Label("Description:");
+	        Label desLbl = new Label(details[1]);
+	        desLbl.setPrefHeight(800);
+	        desLbl.setTextAlignment(TextAlignment.LEFT);
+	        
+	        Label solNameLbl = new Label("Solution:");
+	        Label solLbl = new Label(details[2]);
+	        solLbl.setPrefHeight(400);
+	        solLbl.setWrapText(true);
+	        solLbl.setContentDisplay(ContentDisplay.TOP);
+	        solLbl.setTextAlignment(TextAlignment.LEFT);
+	        //solField.setAlignment(Pos.TOP_LEFT);
+	       // solField.setPrefColumnCount();
+	        
+	        Button okBtn = new Button("OK");
+	        
+	        Button cnclBtn = new Button("Cancel");
+	        
+	        grid.add(titleNameLbl, 0, 0);
+	        grid.add(titleLbl, 1, 0, 2, 1);
+	        grid.add(desNameLbl, 0, 1);
+	        grid.add(desLbl, 1, 1, 4, 2);
+	        grid.add(solNameLbl, 0, 3);
+	        grid.add(solLbl, 1, 3, 4, 2);
+	        grid.add(okBtn, 3 , 5);
+	        grid.add(cnclBtn, 4, 5);
+	        grid.getRowConstraints().addAll(rcons1, rcons2);
+	        grid.getColumnConstraints().addAll(cons1, cons2);
+	        
+	        //GridPane.setMargin(nameLbl, new Insets(-1, -1, -1, -1));
+	        //GridPane.setMargin(nameField, new Insets(-1, -1, -1, -1));
+	       // GridPane.setMargin(desLbl, new Insets(-1, -1, -1, -1));
+	       // GridPane.setMargin(desField, new Insets(-1, -1, -1, -1));
+	        
+	        Scene scene = new Scene(grid);
+	        probDet.setMaximized(true);
+	        probDet.setScene(scene);
+	    	probDet.show();
+	    }
 	    
 
 	    public static void main(String[] args) 
